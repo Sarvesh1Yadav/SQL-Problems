@@ -1,0 +1,5 @@
+with cte as (
+     select salary,dense_rank() over(order by salary desc) as dr from Employee
+)
+select(select salary  from cte
+where dr=2 limit 1) as SecondHighestSalary
