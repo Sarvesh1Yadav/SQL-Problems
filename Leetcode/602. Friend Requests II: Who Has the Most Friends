@@ -1,0 +1,6 @@
+# Write your MySQL query statement below
+select requester_id as id,(select count(*)  from RequestAccepted WHERE requester_id = r.requester_id ) + 
+(select count(*) from RequestAccepted WHERE accepter_id  = r.requester_id ) as num
+from RequestAccepted r
+group by requester_id
+order by num desc limit 1
