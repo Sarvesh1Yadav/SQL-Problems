@@ -1,0 +1,12 @@
+SELECT 
+    t.request_at AS Day,
+    ROUND(
+        COUNT(CASE WHEN t.status IN ('cancelled_by_driver', 'cancelled_by_client') THEN 1 END) / 
+        COUNT(*), 
+    2) AS 'Cancellation Rate'
+FROM Trips t
+WHERE t.request_at BETWEEN '2013-10-01' AND '2013-10-03'
+  AND t.client_id IN (SELECT users_id FROM Users WHERE banned = 'No' AND role = 'client')
+  AND t.driver_id IN (SELECT users_id FROM Users WHERE banned = 'No' AND role = 'driver')
+GROUP BY t.request_at
+ORDER BY t.request_at;
