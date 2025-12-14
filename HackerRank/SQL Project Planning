@@ -1,0 +1,18 @@
+SELECT 
+  MIN(Start_Date) AS project_start,
+  MAX(End_Date)   AS project_end
+FROM (
+  SELECT
+    Start_Date,
+    End_Date,
+    @grp := IF(@prev_key = DATE_SUB(Start_Date, INTERVAL @rn DAY), @grp, @grp + 1) AS grp,
+    @prev_key := DATE_SUB(Start_Date, INTERVAL @rn DAY),
+    @rn := @rn + 1
+  FROM Projects
+  CROSS JOIN (SELECT @rn := 0, @grp := 0, @prev_key := NULL) vars
+  ORDER BY Start_Date
+) t
+GROUP BY grp
+ORDER BY 
+  DATEDIFF(MAX(End_Date), MIN(Start_Date)),
+  MIN(Start_Date);
