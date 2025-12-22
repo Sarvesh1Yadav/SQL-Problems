@@ -1,0 +1,8 @@
+with cte as(
+select product_id,product_name,price,case when price< 100 then "Low Price"
+when price between 100 and 500 then "Medium Price"
+else "High Price"
+end as category from Products)
+select category,count(*) as  no_of_products  from cte
+group by category
+order by count(*) desc
