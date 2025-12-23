@@ -1,0 +1,4 @@
+select * from product_reviews
+WHERE review_text REGEXP '\\bexcellent\\b|\\bamazing\\b'
+  AND review_text NOT REGEXP '\\bnot excellent\\b|\\bnot amazing\\b'
+order by review_id 
