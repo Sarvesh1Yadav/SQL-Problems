@@ -1,0 +1,17 @@
+SELECT 
+    o.product_id,
+    SUM(p.price) AS total_sales
+FROM orders o
+JOIN (
+    SELECT 
+        pr1.product_id, pr1.price, pr1.price_date
+    FROM products pr1
+) p ON p.product_id = o.product_id
+    AND p.price_date = (
+        SELECT MAX(pr2.price_date)
+        FROM products pr2
+        WHERE pr2.product_id = o.product_id
+          AND pr2.price_date <= o.order_date
+    )
+GROUP BY o.product_id
+ORDER BY o.product_id;
