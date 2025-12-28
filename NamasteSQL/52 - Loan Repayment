@@ -1,0 +1,5 @@
+select l.loan_id,l.loan_amount ,l.due_date,
+case when l.loan_amount = sum(p.amount_paid) then 1 else 0 end as fully_paid_flag ,
+case when (l.loan_amount = sum(p.amount_paid)) and (max(p.payment_date) <=l.due_date)  then 1 else 0 end as on_time_flag 
+from loans l join payments p on p.loan_id =l.loan_id
+GROUP BY l.loan_id
