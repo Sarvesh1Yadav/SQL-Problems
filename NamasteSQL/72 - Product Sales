@@ -1,0 +1,3 @@
+select p.product_name, sum(p.price*s.quantity) as total_sales_amount from products p join sales s on s.product_id   =p.product_id   
+group by p.product_name
+order by p.product_name
