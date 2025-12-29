@@ -1,0 +1,5 @@
+select pr.category,
+COALESCE(MIN(CASE WHEN pu.stars >= 4 THEN pr.price END), 0) AS price
+from products pr left join purchases pu on pu.product_id   = pr.id
+group by pr.category
+order by pr.category
