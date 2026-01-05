@@ -1,0 +1,3 @@
+SELECT name
+FROM employees
+WHERE mentor_id != 3 or mentor_id is NULL;
